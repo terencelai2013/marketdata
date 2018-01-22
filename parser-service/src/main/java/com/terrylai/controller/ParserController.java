@@ -40,16 +40,16 @@ public class ParserController {
 	
 	@RequestMapping("/parse/{symbol}")
 	public Data parse(@PathVariable("symbol") String symbol) {
-		logger.info("parser-service parse(symbol) invoked: " + symbol);		
-		int size = service.parse(symbol, DEFAULT_PERIOD);
-		Data data = new Data(symbol, size);
-		logger.info("parser-service parse(symbol) finished: " + size);
-		return data;
+		return get(symbol, DEFAULT_PERIOD);
 	}
 	
 	@RequestMapping("/parse/{symbol}/{period}")
 	public Data parse(@PathVariable("symbol") String symbol, @PathVariable("period") Integer period) {
-		logger.info("parser-service parse(symbol) invoked: " + symbol);
+		return get(symbol, period);
+	}
+	
+	private Data get(String symbol, Integer period) {
+		logger.info("parser-service parse(symbol) invoked: [symbol," + symbol + "] ,[period," + period + "]");
 		if (period > 0) period *= -1;
 		int size = service.parse(symbol, period);
 		Data data = new Data(symbol, size);
