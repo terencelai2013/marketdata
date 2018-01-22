@@ -18,3 +18,9 @@ server:
 error:
   whitelabel:
     enabled: true
+        
+default:
+  period: -2
+  databasename: marketdata
+  hostname: 127.0.0.1
+  portnumber: 27017

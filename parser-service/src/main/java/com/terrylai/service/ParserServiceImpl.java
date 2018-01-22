@@ -16,7 +16,7 @@ import com.terrylai.repositories.SymbolRepository;
 
 @Service
 @EnableMongoRepositories(basePackageClasses = QuoteRepository.class)
-public class MongoParserService implements ParserService {
+public class ParserServiceImpl implements ParserService {
 
 	@Autowired
 	QuoteRepository quoteRepository;
@@ -30,9 +30,14 @@ public class MongoParserService implements ParserService {
 	}
 
 	@Override
-	public int size() {
+	public int get(String symbol) {
 		int retValue = 0;
-		List<Quote> quotes = quoteRepository.findAll();
+		List<Quote> quotes = null;
+		if (symbol != null) {
+			quotes = quoteRepository.findBySymbol(symbol);
+		} else {
+			quotes = quoteRepository.findAll();
+		}
 		if (quotes != null) {
 			retValue = quotes.size();
 		}
