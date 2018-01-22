@@ -1,4 +1,4 @@
-package com.terrylai.response;
+package com.terrylai.web;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -16,6 +16,9 @@ public final class Data implements Serializable {
 	private BigDecimal adjClose;
 	private Long volume;
 
+	public Data() {
+		super();
+	}
 	public Data(String symbol, String date, BigDecimal open, BigDecimal high, BigDecimal low, BigDecimal close,
 			BigDecimal adjClose, Long volume) {
 		super();

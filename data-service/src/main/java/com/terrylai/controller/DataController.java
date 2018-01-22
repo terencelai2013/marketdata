@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.terrylai.entity.Quote;
+import com.terrylai.entity.Symbol;
 import com.terrylai.response.Data;
+import com.terrylai.response.Name;
 import com.terrylai.service.DataService;
 
 @RestController
@@ -21,10 +23,26 @@ public class DataController {
 	
 	protected Logger logger = Logger.getLogger(DataController.class.getName());
 
+	@RequestMapping("/symbols") 
+	public Name[] getAllSymbol() {
+		logger.info("dataService getAllSymbol() invoked");
+		List<Symbol> symbols = service.getSymbols();
+		Name[] nameArray = new Name[symbols.size()];
+		Name name = null;
+		int i = 0;
+		for (Symbol symbol: symbols) {
+			name = new Name(symbol.getName(), symbol.getStart(), symbol.getEnd());
+			nameArray[i] = name;
+			i++;
+		}
+		logger.info("dataService getAllSymbol() finished: " + nameArray.length);
+		return nameArray;
+	}
+	
 	@RequestMapping("/raw/{symbol}")
 	public Data[] bySymbol(@PathVariable("symbol") String symbol) {
 		logger.info("dataService bySymbol() invoked: [symbol, " + symbol + "]");
-		List<Quote> quotes = service.get(symbol);
+		List<Quote> quotes = service.getQuote(symbol);
 		Data[] dataArray = new Data[quotes.size()];
 		Data data = null;
     	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
