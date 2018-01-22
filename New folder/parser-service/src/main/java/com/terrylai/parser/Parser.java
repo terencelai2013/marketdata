@@ -17,13 +17,13 @@ import yahoofinance.histquotes.HistoricalQuote;
 import yahoofinance.histquotes.Interval;
 
 public class Parser {
-	public static Historical parse(String symbol, int before) {
+	public static Historical parse(String symbol) {
 		Historical historical = new Historical();
 
 		try {
 			Calendar from = Calendar.getInstance();
 			Calendar to = Calendar.getInstance();
-			from.add(Calendar.MONTH, before);
+			from.add(Calendar.MONTH, -2);
 
 			Stock stock = YahooFinance.get(symbol, from, to, Interval.DAILY);
 
