@@ -1,8 +1,8 @@
-package com.terrylai.repositories;
+package com.terrylai.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.terrylai.entities.Symbol;
+import com.terrylai.entity.Symbol;
 
 public interface SymbolRepository extends MongoRepository<Symbol, String> {
 

@@ -1,21 +1,21 @@
-package com.terrylai.application;
+package com.terrylai.response;
 
 import java.io.Serializable;
 
-public class Data implements Serializable{
+public final class Data implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private String symbol;
-	
+
 	private Integer size;
-	
+
 	public Data(String symbol, Integer size) {
 		super();
 		this.symbol = symbol;
 		this.size = size;
 	}
-	
+
 	public String getSymbol() {
 		return symbol;
 	}
@@ -37,5 +37,4 @@ public class Data implements Serializable{
 		return "Data [symbol=" + symbol + ", size=" + size + "]";
 	}
 
-	
 }

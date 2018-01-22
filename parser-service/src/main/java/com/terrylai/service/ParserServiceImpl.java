@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.stereotype.Service;
 
-import com.terrylai.entities.Historical;
-import com.terrylai.entities.Quote;
-import com.terrylai.entities.Symbol;
+import com.terrylai.entity.Historical;
+import com.terrylai.entity.Quote;
+import com.terrylai.entity.Symbol;
 import com.terrylai.parser.Parser;
-import com.terrylai.repositories.QuoteRepository;
-import com.terrylai.repositories.SymbolRepository;
+import com.terrylai.repository.QuoteRepository;
+import com.terrylai.repository.SymbolRepository;
 
 @Service
 @EnableMongoRepositories(basePackageClasses = QuoteRepository.class)

@@ -7,9 +7,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import com.terrylai.entities.Historical;
-import com.terrylai.entities.Quote;
-import com.terrylai.entities.Symbol;
+import com.terrylai.entity.Historical;
+import com.terrylai.entity.Quote;
+import com.terrylai.entity.Symbol;
 
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;

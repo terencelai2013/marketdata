@@ -1,4 +1,4 @@
-package com.terrylai.entities;
+package com.terrylai.entity;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;

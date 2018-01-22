@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.terrylai.data.Data;
+import com.terrylai.response.Data;
 import com.terrylai.service.ParserService;
 
 @RestController
