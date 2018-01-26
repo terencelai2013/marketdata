@@ -9,5 +9,5 @@ import com.terrylai.entity.Quote;
 
 public interface QuoteRepository extends MongoRepository<Quote, String> {
 
-	List<Quote> findBySymbol(final String symbol, Sort sort);
+	List<Quote> findBySymbolAndType(final String symbol, final String type, Sort sort);
 }

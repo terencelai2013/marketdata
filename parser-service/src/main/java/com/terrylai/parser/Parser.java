@@ -17,6 +17,8 @@ import yahoofinance.histquotes.HistoricalQuote;
 import yahoofinance.histquotes.Interval;
 
 public class Parser {
+	public static final String QUOTE_TYPE_RAW = "raw";
+	
 	public static Historical parse(String symbol, int before) {
 		Historical historical = new Historical();
 
@@ -37,7 +39,7 @@ public class Parser {
 			Quote quote; 
 			boolean isFirst = true;
 			Date startDate = null;
-			Iterator iterator = historicalQuotes.iterator();
+			Iterator<HistoricalQuote> iterator = historicalQuotes.iterator();
 			while (iterator.hasNext()) {
 				historicalQuote = (HistoricalQuote) iterator.next();
 				if (isFirst) {
@@ -46,6 +48,7 @@ public class Parser {
 				}
 				quote = new Quote(historicalQuote.getSymbol(), 
 						historicalQuote.getDate().getTime(), 
+						QUOTE_TYPE_RAW,
 						historicalQuote.getHigh(),
 						historicalQuote.getLow(),
 						historicalQuote.getOpen(),

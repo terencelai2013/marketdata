@@ -17,6 +17,7 @@ public class Quote {
     
 	private String symbol;
 	private Date date;
+	private String type;
     private BigDecimal open;
     private BigDecimal low;
     private BigDecimal high;
@@ -28,13 +29,14 @@ public class Quote {
     
     public Quote() {}
 
-    public Quote(String symbol, Date date, BigDecimal high, BigDecimal low,  BigDecimal open,  BigDecimal close, BigDecimal adjClose, Long volume) {
+    public Quote(String symbol, Date date, String type, BigDecimal high, BigDecimal low,  BigDecimal open,  BigDecimal close, BigDecimal adjClose, Long volume) {
     	this.symbol = symbol;
     	this.date = date;
     	
     	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String dateStr = dateFormat.format(this.date);
     	this.id = symbol + "@" + dateStr;
+    	this.type = type;
         this.open = open;
         this.low = low;
         this.high = high;
@@ -49,6 +51,10 @@ public class Quote {
    
     public Date getDate() {
     	return date;    	
+    }
+    
+    public String getType() {
+    	return type;
     }
     
     public BigDecimal getOpen() {

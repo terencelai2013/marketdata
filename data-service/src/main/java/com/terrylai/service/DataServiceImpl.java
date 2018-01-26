@@ -16,6 +16,7 @@ import com.terrylai.repository.SymbolRepository;
 @EnableMongoRepositories(basePackageClasses = QuoteRepository.class)
 public class DataServiceImpl implements DataService {
 
+	static final String QUOTE_TYPE_RAW = "raw";
 	@Autowired
 	QuoteRepository quoteRepository;
 	
@@ -31,7 +32,7 @@ public class DataServiceImpl implements DataService {
 	@Override
 	public List<Quote> getQuote(String symbol) {
 		List<Quote> quotes = null;
-		quotes = quoteRepository.findBySymbol(symbol, new Sort(Sort.Direction.ASC, "date"));
+		quotes = quoteRepository.findBySymbolAndType(symbol, QUOTE_TYPE_RAW, new Sort(Sort.Direction.ASC, "date"));
 		return quotes;
 	}
 }

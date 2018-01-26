@@ -55,7 +55,7 @@ public class DataController {
 		int i = 0;
 		for (Quote quote: quotes) {
 			dateStr = dateFormat.format(quote.getDate());
-			data = new Data(quote.getSymbol(), dateStr, quote.getOpen(), quote.getHigh(), quote.getLow(), quote.getClose(), quote.getAdjClose(), quote.getVolume());
+			data = new Data(quote.getSymbol(), dateStr, quote.getType(), quote.getOpen(), quote.getHigh(), quote.getLow(), quote.getClose(), quote.getAdjClose(), quote.getVolume());
 			dataArray[i] = data;
 			i++;
 		}

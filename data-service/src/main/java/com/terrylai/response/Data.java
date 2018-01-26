@@ -9,6 +9,7 @@ public final class Data implements Serializable {
 
 	private String symbol;
 	private String date;
+	private String type;
 	private BigDecimal open;
 	private BigDecimal high;
 	private BigDecimal low;
@@ -16,11 +17,12 @@ public final class Data implements Serializable {
 	private BigDecimal adjClose;
 	private Long volume;
 
-	public Data(String symbol, String date, BigDecimal open, BigDecimal high, BigDecimal low, BigDecimal close,
+	public Data(String symbol, String date, String type, BigDecimal open, BigDecimal high, BigDecimal low, BigDecimal close,
 			BigDecimal adjClose, Long volume) {
 		super();
 		this.symbol = symbol;
 		this.date = date;
+		this.type = type;
 		this.open = open;
 		this.high = high;
 		this.low = low;
@@ -43,6 +45,14 @@ public final class Data implements Serializable {
 
 	public void setDate(String date) {
 		this.date = date;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public BigDecimal getOpen() {
