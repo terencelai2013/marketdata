@@ -8,7 +8,7 @@ spring:
 eureka:
     client:
       serviceUrl:
-        defaultZone: http://localhost:1111/eureka/
+        defaultZone: http://192.168.0.27:1111/eureka/
 
 # HTTP Server (Tomcat) Port
 server: 
@@ -21,5 +21,5 @@ error:
     
 default:
   databasename: marketdata
-  hostname: 127.0.0.1
+  hostname: 192.168.0.27
   portnumber: 27017    
