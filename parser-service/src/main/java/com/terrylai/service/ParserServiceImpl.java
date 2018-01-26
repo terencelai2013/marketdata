@@ -20,7 +20,7 @@ public class ParserServiceImpl implements ParserService {
 
 	@Autowired
 	QuoteRepository quoteRepository;
-	
+
 	@Autowired
 	SymbolRepository symbolRepository;
 
@@ -47,33 +47,38 @@ public class ParserServiceImpl implements ParserService {
 	@Override
 	public int parse(String symbol, int period) {
 		return get(symbol, period);
-	}	
-	
+	}
+
 	private int get(String symbol, int period) {
 		int retValue = 0;
-		
+
 		Historical historical;
 		List<Quote> quotes;
 		Symbol sym;
-		
+
 		historical = Parser.parse(symbol, period);
 		sym = historical.getSymbol();
 		quotes = historical.getQuotes();
 		if (quotes != null && quotes.size() > 0) {
-			
+
 			Iterator<Quote> iterator = quotes.iterator();
 
 			Quote quote;
 			while (iterator.hasNext()) {
 				quote = (Quote) iterator.next();
-				quoteRepository.save(quote);
+				if (quote.getClose() == null || quote.getAdjClose() == null || quote.getHigh() == null
+						|| quote.getLow() == null || quote.getOpen() == null || quote.getVolume() == null) {
+					// quote contains null data
+				} else {
+					quoteRepository.save(quote);
+				}
 			}
 			if (sym != null) {
 				symbolRepository.save(sym);
 			}
-			retValue = quotes.size();			
+			retValue = quotes.size();
 		}
 		return retValue;
 	}
-	
+
 }
