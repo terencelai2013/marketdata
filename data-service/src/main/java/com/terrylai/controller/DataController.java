@@ -30,8 +30,13 @@ public class DataController {
 		Name[] nameArray = new Name[symbols.size()];
 		Name name = null;
 		int i = 0;
+    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String startDateStr = null;
+        String endDateStr = null;
 		for (Symbol symbol: symbols) {
-			name = new Name(symbol.getName(), symbol.getStart(), symbol.getEnd());
+			startDateStr = dateFormat.format(symbol.getStart());
+			endDateStr = dateFormat.format(symbol.getEnd());
+			name = new Name(symbol.getName(), startDateStr, endDateStr);
 			nameArray[i] = name;
 			i++;
 		}

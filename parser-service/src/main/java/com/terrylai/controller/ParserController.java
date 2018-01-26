@@ -23,11 +23,24 @@ public class ParserController {
 	protected Logger logger = Logger.getLogger(ParserController.class.getName());
 	
 	@RequestMapping("/reset")
-	public Data reset() {
-		logger.info("parser-service reset() invoked: " + "NA");		
-		service.reset();
-		Data data = new Data("NA", 0);		
-		logger.info("parser-service reset() finished: " + 0);
+	public Data resetAll() {
+		logger.info("parser-service reset() invoked: [symbol,ALL]");
+			service.reset();
+		Data data = getSymbol("ALL");		
+		logger.info("parser-service reset() finished: " + data.getSize());
+		return data;
+	}
+	
+	@RequestMapping("/reset/{symbol}")
+	public Data reset(@PathVariable("symbol") String symbol) {
+		logger.info("parser-service reset(symbol) invoked: [symbol," + symbol + "]");
+		if (symbol != null && symbol.equals("ALL")) {
+			service.reset();
+		} else {
+			service.reset(symbol);
+		}
+		Data data = getSymbol(symbol);		
+		logger.info("parser-service reset(symbol) finished: " + data.getSize());
 		return data;
 	}
 	
@@ -44,7 +57,11 @@ public class ParserController {
 	private Data getSymbol(String symbol) {
 		logger.info("parser-service get() invoked: [symbol," + symbol + "]");		
 		int retValue = service.get(symbol);
-		Data data = new Data("ALL", retValue);	
+		String retSymbol = symbol;
+		if (retSymbol == null) {
+			retSymbol = "ALL";
+		}
+		Data data = new Data(retSymbol, retValue);	
 		logger.info("parser-service get() finished: " + retValue);
 		return data;
 	}

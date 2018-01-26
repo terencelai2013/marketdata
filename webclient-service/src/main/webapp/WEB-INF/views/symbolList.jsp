@@ -36,7 +36,7 @@
 
 			<ul>
 				<c:forEach items="${names}" var="name">
-					<li><a href="symbolDetails?symbol=${name.name}">${name.name}</a></li>
+					<li><a href="symbolDetails?symbol=${name.symbol}">${name.symbol}</a></li>
 				</c:forEach>
 			</ul>
 					

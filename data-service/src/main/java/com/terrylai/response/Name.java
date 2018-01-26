@@ -1,45 +1,44 @@
 package com.terrylai.response;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public final class Name implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String name;
+	private String symbol;
 	
-	private Date start;
+	private String start;
 	
-	private Date end;
+	private String end;
 
-	public Name(String name, Date start, Date end) {
-		this.name = name;
+	public Name(String symbol, String start, String end) {
+		this.symbol = symbol;
 		this.start = start;
 		this.end = end;
 	}
 	
-	public String getName() {
-		return name;
+	public String getSymbol() {
+		return symbol;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
 	}
 
-	public Date getStart() {
+	public String getStart() {
 		return start;
 	}
 
-	public void setStart(Date start) {
+	public void setStart(String start) {
 		this.start = start;
 	}
 
-	public Date getEnd() {
+	public String getEnd() {
 		return end;
 	}
 
-	public void setEnd(Date end) {
+	public void setEnd(String end) {
 		this.end = end;
 	}	
 }

@@ -27,8 +27,14 @@ public class ParserServiceImpl implements ParserService {
 	@Override
 	public void reset() {
 		quoteRepository.deleteAll();
+		symbolRepository.deleteAll();
 	}
 
+	@Override
+	public void reset(String symbol) {
+		quoteRepository.deleteBySymbol(symbol);
+		symbolRepository.deleteByName(symbol);
+	}
 	@Override
 	public int get(String symbol) {
 		int retValue = 0;

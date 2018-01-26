@@ -6,7 +6,7 @@ import java.util.Date;
 public final class Name implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	private String name;
+	private String symbol;
 	
 	private Date start;
 	
@@ -16,18 +16,18 @@ public final class Name implements Serializable {
 		super();
 	}
 	
-	public Name(String name, Date start, Date end) {
-		this.name = name;
+	public Name(String symbol, Date start, Date end) {
+		this.symbol = symbol;
 		this.start = start;
 		this.end = end;
 	}
 	
-	public String getName() {
-		return name;
+	public String getSymbol() {
+		return symbol;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
 	}
 
 	public Date getStart() {
