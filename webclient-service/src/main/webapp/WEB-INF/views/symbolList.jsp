@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="<c:url value="resources/styles/bootstrap/3.3.5/css/bootstrap.min.css" />" />
     <link rel="stylesheet" href="<c:url value="resources/styles/bootstrap/3.3.5/css/bootstrap-theme.min.css" />" />
     <link rel="stylesheet" href="<c:url value="resources/styles/pivotal.css" />" />
-	<title>spring-microservices: Account List</title>
+	<title>Symbol List</title>
 </head>
 
 <body>
@@ -32,7 +32,7 @@
 		
 		<div class="row">
 			
-			<h1>Symbol List</h1>
+			<h2>Symbols</h2>
 
 			<ul>
 				<c:forEach items="${names}" var="name">

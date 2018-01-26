@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="<c:url value="resources/styles/bootstrap/3.3.5/css/bootstrap.min.css" />" />
     <link rel="stylesheet" href="<c:url value="resources/styles/bootstrap/3.3.5/css/bootstrap-theme.min.css" />" />
     <link rel="stylesheet" href="<c:url value="resources/styles/pivotal.css" />" />
-	<title>spring-microservices: Home</title>
+	<title>Home</title>
 </head>
 
 <body>
@@ -31,10 +31,10 @@
 		
 		<div class="row">
 			
-			<h1>Data Web - Home Page</h1>
+			<h1>Home Page</h1>
 
 			<ul>
-				<li><a href="/symbolList">View Symbol List</a></li>
+				<li><a href="/symbolList">Symbols - MVC</a></li>
 			</ul>
 			
 		</div>

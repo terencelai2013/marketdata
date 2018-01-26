@@ -11,7 +11,7 @@
 	<link rel="stylesheet" href="<c:url value="resources/styles/bootstrap/3.3.5/css/bootstrap.min.css" />" />
     <link rel="stylesheet" href="<c:url value="resources/styles/bootstrap/3.3.5/css/bootstrap-theme.min.css" />" />
     <link rel="stylesheet" href="<c:url value="resources/styles/pivotal.css" />" />
-	<title>spring-microservices: Account Details</title>
+	<title>Symbol Details</title>
 </head>
 
 <body>
@@ -33,11 +33,11 @@
 		
 		<div class="row">
 			
-			<h1>${symbol}</h1>
+			<h2>${symbol}</h2>
 			
 			<ul>
 				<c:forEach items="${names}" var="name">
-					<li>${name.date} - ${name.close}</a></li>
+					<li>${name.date} : ${name.close}</a></li>
 				</c:forEach>
 			</ul>
 								
