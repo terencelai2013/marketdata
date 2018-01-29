@@ -67,7 +67,7 @@ public final class Quote implements Serializable {
 	}
 
 	public String getDateString() {
-		return dateFormat.format(this.date);
+		return (this.date!=null)?dateFormat.format(this.date):null;
 	}
 
 	public String getType() {

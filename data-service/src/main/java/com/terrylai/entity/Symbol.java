@@ -13,6 +13,8 @@ public class Symbol implements Serializable {
 	@JsonIgnore
 	private static final String CONSTANT_DATE_FORMAT = "yyyy-MM-dd";
 	
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat(CONSTANT_DATE_FORMAT);
+	
 	private String name;
 	
 	@JsonIgnore
@@ -28,12 +30,11 @@ public class Symbol implements Serializable {
 	private Integer count;
 	
 	public Symbol(String name, Date start, Date end, Integer count) {
-    	SimpleDateFormat dateFormat = new SimpleDateFormat(CONSTANT_DATE_FORMAT);
 		this.name = name;
 		this.start = start;
 		this.end = end;
-		this.startDate = dateFormat.format(this.start);
-		this.endDate = dateFormat.format(this.end);
+		if (start != null) 	this.startDate = dateFormat.format(this.start);
+		if (end != null) this.endDate = dateFormat.format(this.end);
 		this.count = count;
 	}
 	
@@ -52,8 +53,7 @@ public class Symbol implements Serializable {
 
 	public void setStart(Date start) {
 		this.start = start;
-		SimpleDateFormat dateFormat = new SimpleDateFormat(CONSTANT_DATE_FORMAT);
-		this.startDate = dateFormat.format(this.start);
+		if (start != null) this.startDate = dateFormat.format(this.start);
 	}
 
 	@JsonIgnore
@@ -63,8 +63,7 @@ public class Symbol implements Serializable {
 
 	public void setEnd(Date end) {
 		this.end = end;		
-		SimpleDateFormat dateFormat = new SimpleDateFormat(CONSTANT_DATE_FORMAT);
-		this.endDate = dateFormat.format(this.end);
+		if (end !=null) this.endDate = dateFormat.format(this.end);
 		
 	}
 	
