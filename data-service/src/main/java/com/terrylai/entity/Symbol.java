@@ -1,27 +1,40 @@
 package com.terrylai.entity;
 
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.springframework.data.annotation.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Getter;
-import lombok.Setter;
+public class Symbol implements Serializable {
 
-@Getter
-@Setter
-public class Symbol {
+	private static final long serialVersionUID = 1L;
 
-	@Id
+	@JsonIgnore
+	private static final String CONSTANT_DATE_FORMAT = "yyyy-MM-dd";
+	
 	private String name;
 	
+	@JsonIgnore
 	private Date start;
 	
+	@JsonIgnore
 	private Date end;
 
-	public Symbol(String name, Date start, Date end) {
+	private String startDate;
+	
+	private String endDate;
+		
+	private Integer count;
+	
+	public Symbol(String name, Date start, Date end, Integer count) {
+    	SimpleDateFormat dateFormat = new SimpleDateFormat(CONSTANT_DATE_FORMAT);
 		this.name = name;
 		this.start = start;
 		this.end = end;
+		this.startDate = dateFormat.format(this.start);
+		this.endDate = dateFormat.format(this.end);
+		this.count = count;
 	}
 	
 	public String getName() {
@@ -32,21 +45,50 @@ public class Symbol {
 		this.name = name;
 	}
 
+	@JsonIgnore
 	public Date getStart() {
 		return start;
 	}
 
 	public void setStart(Date start) {
 		this.start = start;
+		SimpleDateFormat dateFormat = new SimpleDateFormat(CONSTANT_DATE_FORMAT);
+		this.startDate = dateFormat.format(this.start);
 	}
 
+	@JsonIgnore
 	public Date getEnd() {
 		return end;
 	}
 
 	public void setEnd(Date end) {
-		this.end = end;
+		this.end = end;		
+		SimpleDateFormat dateFormat = new SimpleDateFormat(CONSTANT_DATE_FORMAT);
+		this.endDate = dateFormat.format(this.end);
+		
 	}
 	
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
 	
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
+	}
 }

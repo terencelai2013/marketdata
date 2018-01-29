@@ -3,13 +3,10 @@ package com.terrylai.parser;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import com.terrylai.entity.Historical;
 import com.terrylai.entity.Quote;
-import com.terrylai.entity.Symbol;
 
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
@@ -19,9 +16,8 @@ import yahoofinance.histquotes.Interval;
 public class Parser {
 	public static final String QUOTE_TYPE_RAW = "raw";
 	
-	public static Historical parse(String symbol, int before) {
-		Historical historical = new Historical();
-
+	public static List<Quote> parse(String symbol, int before) {
+		List<Quote> quotes = new ArrayList<Quote>();
 		try {
 			Calendar from = Calendar.getInstance();
 			Calendar to = Calendar.getInstance();
@@ -33,19 +29,10 @@ public class Parser {
 
 			HistoricalQuote historicalQuote = null;
 			
-			List<Quote> quotes = new ArrayList<Quote>();
-			
-			Symbol sym = null;
 			Quote quote; 
-			boolean isFirst = true;
-			Date startDate = null;
 			Iterator<HistoricalQuote> iterator = historicalQuotes.iterator();
 			while (iterator.hasNext()) {
 				historicalQuote = (HistoricalQuote) iterator.next();
-				if (isFirst) {
-					startDate = historicalQuote.getDate().getTime();
-					isFirst = false;
-				}
 				quote = new Quote(historicalQuote.getSymbol(), 
 						historicalQuote.getDate().getTime(), 
 						QUOTE_TYPE_RAW,
@@ -57,15 +44,10 @@ public class Parser {
 						historicalQuote.getVolume());
 				quotes.add(quote);
 			}
-			if (historicalQuote != null) {
-				sym = new Symbol(historicalQuote.getSymbol(), startDate, historicalQuote.getDate().getTime());	
-			}
-			historical.setSymbol(sym);
-			historical.setQuotes(quotes);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return historical;
+		return quotes;
 	}
 }

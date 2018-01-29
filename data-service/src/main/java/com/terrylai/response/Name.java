@@ -12,10 +12,13 @@ public final class Name implements Serializable {
 	
 	private String end;
 
-	public Name(String symbol, String start, String end) {
+	private Integer count;
+	
+	public Name(String symbol, String start, String end, Integer count) {
 		this.symbol = symbol;
 		this.start = start;
 		this.end = end;
+		this.count = count;
 	}
 	
 	public String getSymbol() {
@@ -40,5 +43,14 @@ public final class Name implements Serializable {
 
 	public void setEnd(String end) {
 		this.end = end;
+	}
+
+	public Integer getCount() {
+		return count;
+	}
+
+	public void setCount(Integer count) {
+		this.count = count;
 	}	
+	
 }
