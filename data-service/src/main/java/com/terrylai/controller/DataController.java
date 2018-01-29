@@ -20,7 +20,7 @@ public class DataController {
 	protected Logger logger = Logger.getLogger(DataController.class.getName());
 
 	@RequestMapping("/info/symbol/{symbol}")
-	public Symbol getSymbol(@PathVariable("symbol") String symbol) {
+	public Symbol getSymbolInfo(@PathVariable("symbol") String symbol) {
 		logger.info("dataService getSymbol() invoked: [symbol, " + symbol + "]");
 		Symbol returnSymbol = service.getSymbol(symbol);
 		logger.info("dataService getSymbol() finished: ");
@@ -28,7 +28,7 @@ public class DataController {
 	}
 
 	@RequestMapping("/info/symbols")
-	public Symbol[] getSymbols() {
+	public Symbol[] getSymbolsInfo() {
 		logger.info("dataService getSymbols() invoked");
 		List<Symbol> symbols = service.getSymbols();
 		Symbol[] returnSymbols = new Symbol[symbols.size()];
@@ -37,7 +37,7 @@ public class DataController {
 	}
 
 	@RequestMapping("/raw/{symbol}")
-	public Quote[] bySymbol(@PathVariable("symbol") String symbol) {
+	public Quote[] getSymbol(@PathVariable("symbol") String symbol) {
 		logger.info("dataService bySymbol() invoked: [symbol, " + symbol + "]");
 		List<Quote> quotes = service.getQuote(symbol);
 		Quote[] returnQuotes = new Quote[quotes.size()];

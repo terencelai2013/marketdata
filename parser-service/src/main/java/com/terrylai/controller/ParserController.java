@@ -14,6 +14,8 @@ import com.terrylai.service.ParserService;
 @RestController
 public class ParserController {
 	
+	static final String CONSTANT_SYMBOL_ALL = "ALL";
+	
 	@Value( "${default.period}" )
 	private int DEFAULT_PERIOD;
 	
@@ -26,7 +28,7 @@ public class ParserController {
 	public Data resetAll() {
 		logger.info("parser-service reset() invoked: [symbol,ALL]");
 			service.reset();
-		Data data = getSymbol("ALL");		
+		Data data = getSymbol(CONSTANT_SYMBOL_ALL);		
 		logger.info("parser-service reset() finished: " + data.getSize());
 		return data;
 	}
@@ -34,7 +36,7 @@ public class ParserController {
 	@RequestMapping("/reset/{symbol}")
 	public Data reset(@PathVariable("symbol") String symbol) {
 		logger.info("parser-service reset(symbol) invoked: [symbol," + symbol + "]");
-		if (symbol != null && symbol.equals("ALL")) {
+		if (symbol != null && symbol.equals(CONSTANT_SYMBOL_ALL)) {
 			service.reset();
 		} else {
 			service.reset(symbol);
@@ -59,7 +61,7 @@ public class ParserController {
 		int retValue = service.get(symbol);
 		String retSymbol = symbol;
 		if (retSymbol == null) {
-			retSymbol = "ALL";
+			retSymbol = CONSTANT_SYMBOL_ALL;
 		}
 		Data data = new Data(retSymbol, retValue);	
 		logger.info("parser-service get() finished: " + retValue);

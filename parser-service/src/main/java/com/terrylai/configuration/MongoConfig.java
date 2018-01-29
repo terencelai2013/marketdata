@@ -10,6 +10,8 @@ import com.mongodb.MongoClient;
 @Configuration
 public class MongoConfig extends AbstractMongoConfiguration {
   
+	static final String MAPPING_BASE_PACKAGE = "com.terrylai";
+	
 	@Value( "${default.databasename}" )
 	private String databaseName;
 	
@@ -31,6 +33,6 @@ public class MongoConfig extends AbstractMongoConfiguration {
   
     @Override
     protected String getMappingBasePackage() {
-        return "com.terrylai";
+        return MAPPING_BASE_PACKAGE;
     }
 }
