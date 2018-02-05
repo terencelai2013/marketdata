@@ -35,27 +35,26 @@ public class DataServiceImpl implements DataService, MongoConstants {
 	@Override
 	public Symbol getSymbol(String symbol) {
 		Symbol returnSymbol = new Symbol(OUTPUT_VALUE_SYMBOL_NA, null, null, 0);
-		GroupOperation groupBy = Aggregation.group(FIELD_KEY_SYMBOL).count().as(OUTPUT_FIELD_KEY_COUNT).min(FIELD_KEY_DATE)
-				.as(OUTPUT_FIELD_KEY_START_DATE).max(FIELD_KEY_DATE).as(OUTPUT_FIELD_KEY_END_DATE);
+		GroupOperation groupBy = Aggregation.group(FIELD_KEY_SYMBOL).count().as(OUTPUT_FIELD_KEY_COUNT)
+				.min(FIELD_KEY_DATE).as(OUTPUT_FIELD_KEY_START_DATE).max(FIELD_KEY_DATE).as(OUTPUT_FIELD_KEY_END_DATE);
 		MatchOperation isEqual = Aggregation.match(new Criteria(FIELD_KEY_SYMBOL).is(symbol));
 		Aggregation aggregation = Aggregation.newAggregation(isEqual, groupBy);
 		AggregationResults<DBObject> results = mongoTemplate.aggregate(aggregation, COLLECTION_QUOTE, DBObject.class);
-		Iterator<DBObject> iterators = results.iterator();
-		DBObject object = null;
-		while (iterators.hasNext()) {
-			object = iterators.next();
-			returnSymbol.setName(object.get(OUTPUT_FIELD_KEY_ID).toString());
-			returnSymbol.setStart(new Date(object.get(OUTPUT_FIELD_KEY_START_DATE).toString()));
-			returnSymbol.setEnd(new Date(object.get(OUTPUT_FIELD_KEY_END_DATE).toString()));
-			returnSymbol.setCount(Integer.valueOf(object.get(OUTPUT_FIELD_KEY_COUNT).toString()));
-		}
+
+		DBObject object = results.getUniqueMappedResult();
+
+		returnSymbol.setName(object.get(OUTPUT_FIELD_KEY_ID).toString());
+		returnSymbol.setStart(new Date(object.get(OUTPUT_FIELD_KEY_START_DATE).toString()));
+		returnSymbol.setEnd(new Date(object.get(OUTPUT_FIELD_KEY_END_DATE).toString()));
+		returnSymbol.setCount(Integer.valueOf(object.get(OUTPUT_FIELD_KEY_COUNT).toString()));
+
 		return returnSymbol;
 	}
 
 	@Override
 	public List<Symbol> getSymbols() {
-		GroupOperation groupBy = Aggregation.group(FIELD_KEY_SYMBOL).count().as(OUTPUT_FIELD_KEY_COUNT).min(FIELD_KEY_DATE)
-				.as(OUTPUT_FIELD_KEY_START_DATE).max(FIELD_KEY_DATE).as(OUTPUT_FIELD_KEY_END_DATE);
+		GroupOperation groupBy = Aggregation.group(FIELD_KEY_SYMBOL).count().as(OUTPUT_FIELD_KEY_COUNT)
+				.min(FIELD_KEY_DATE).as(OUTPUT_FIELD_KEY_START_DATE).max(FIELD_KEY_DATE).as(OUTPUT_FIELD_KEY_END_DATE);
 		Aggregation aggregation = Aggregation.newAggregation(groupBy);
 		AggregationResults<DBObject> results = mongoTemplate.aggregate(aggregation, COLLECTION_QUOTE, DBObject.class);
 
@@ -72,7 +71,8 @@ public class DataServiceImpl implements DataService, MongoConstants {
 	@Override
 	public List<Quote> getQuote(String symbol) {
 		List<Quote> quotes = null;
-		quotes = quoteRepository.findBySymbolAndType(symbol, FIELD_VALUE_TYPE_RAW, new Sort(Sort.Direction.ASC, FIELD_KEY_DATE));
+		quotes = quoteRepository.findBySymbolAndType(symbol, FIELD_VALUE_TYPE_RAW,
+				new Sort(Sort.Direction.ASC, FIELD_KEY_DATE));
 		return quotes;
 	}
 }

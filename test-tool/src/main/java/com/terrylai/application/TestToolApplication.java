@@ -50,7 +50,7 @@ public class TestToolApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 //    	getSymbol("GOOG");
 //    	getSymbol5("GOOG");
-//    	System.out.println(testService.getSymbol("GOOG"));
+    	System.out.println(testService.getSymbol("GOOG"));
     	getSymbols();
         System.exit(0);
     }

@@ -63,15 +63,12 @@ public class TestServiceImpl implements TestService, MongoConstants {
 		MatchOperation isEqual = Aggregation.match(new Criteria(FIELD_KEY_SYMBOL).is(symbol));
 		Aggregation aggregation = Aggregation.newAggregation(isEqual, groupBy);
 		AggregationResults<DBObject> results = mongoTemplate.aggregate(aggregation, COLLECTION_QUOTE, DBObject.class);
-		Iterator<DBObject> iterators = results.iterator();
-		DBObject object = null;
-		while (iterators.hasNext()) {
-			object = iterators.next();
-			returnSymbol.setName(object.get(OUTPUT_FIELD_KEY_ID).toString());
-			returnSymbol.setStart(new Date(object.get(OUTPUT_FIELD_KEY_START_DATE).toString()));
-			returnSymbol.setEnd(new Date(object.get(OUTPUT_FIELD_KEY_END_DATE).toString()));
-			returnSymbol.setCount(Integer.valueOf(object.get(OUTPUT_FIELD_KEY_COUNT).toString()));
-		}
+		DBObject object = results.getUniqueMappedResult();
+
+		returnSymbol.setName(object.get(OUTPUT_FIELD_KEY_ID).toString());
+		returnSymbol.setStart(new Date(object.get(OUTPUT_FIELD_KEY_START_DATE).toString()));
+		returnSymbol.setEnd(new Date(object.get(OUTPUT_FIELD_KEY_END_DATE).toString()));
+		returnSymbol.setCount(Integer.valueOf(object.get(OUTPUT_FIELD_KEY_COUNT).toString()));
 		return returnSymbol;
 	}
 
