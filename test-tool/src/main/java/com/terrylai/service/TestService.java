@@ -17,4 +17,6 @@ public interface TestService {
 	public Page<Quote> quoteBySymbol(String symbol, Pageable pageable);
 	
 	public Symbol getSymbol(String symbol);
+	
+	public List<Symbol> getSymbols();
 }

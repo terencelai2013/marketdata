@@ -12,9 +12,9 @@ public interface MongoConstants {
 	
 	static final String OUTPUT_FIELD_KEY_ID = "_id";
 
-	static final String OUTPUT_FIELD_KEY_START_DATE = "startDate";
+	static final String OUTPUT_FIELD_KEY_START_DATE = "start";
 
-	static final String OUTPUT_FIELD_KEY_END_DATE = "endDate";
+	static final String OUTPUT_FIELD_KEY_END_DATE = "end";
 
 	static final String OUTPUT_FIELD_KEY_COUNT = "count";
 

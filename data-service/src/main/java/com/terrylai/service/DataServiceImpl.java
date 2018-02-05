@@ -1,9 +1,9 @@
 package com.terrylai.service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -54,21 +54,18 @@ public class DataServiceImpl implements DataService, MongoConstants {
 
 	@Override
 	public List<Symbol> getSymbols() {
-		List<Symbol> symbols = new ArrayList<Symbol>();
 		GroupOperation groupBy = Aggregation.group(FIELD_KEY_SYMBOL).count().as(OUTPUT_FIELD_KEY_COUNT).min(FIELD_KEY_DATE)
 				.as(OUTPUT_FIELD_KEY_START_DATE).max(FIELD_KEY_DATE).as(OUTPUT_FIELD_KEY_END_DATE);
 		Aggregation aggregation = Aggregation.newAggregation(groupBy);
 		AggregationResults<DBObject> results = mongoTemplate.aggregate(aggregation, COLLECTION_QUOTE, DBObject.class);
-		Iterator<DBObject> iterators = results.iterator();
-		DBObject object = null;
-		Symbol symbol = null;
-		while (iterators.hasNext()) {
-			object = iterators.next();
-			symbol = new Symbol(object.get(OUTPUT_FIELD_KEY_ID).toString(), new Date(object.get(OUTPUT_FIELD_KEY_START_DATE).toString()),
-					new Date(object.get(OUTPUT_FIELD_KEY_END_DATE).toString()),
-					Integer.valueOf(object.get(OUTPUT_FIELD_KEY_COUNT).toString()));
-			symbols.add(symbol);
-		}
+
+		List<DBObject> dbObjects = results.getMappedResults();
+		List<Symbol> symbols = dbObjects.parallelStream().map(s -> {
+			return new Symbol(s.get(OUTPUT_FIELD_KEY_ID).toString(),
+					new Date(s.get(OUTPUT_FIELD_KEY_START_DATE).toString()),
+					new Date(s.get(OUTPUT_FIELD_KEY_END_DATE).toString()),
+					Integer.valueOf(s.get(OUTPUT_FIELD_KEY_COUNT).toString()));
+		}).collect(Collectors.toList());
 		return symbols;
 	}
 

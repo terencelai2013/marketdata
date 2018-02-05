@@ -32,6 +32,8 @@ public final class Quote implements Serializable {
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CONSTANT_DATE_FORMAT)
 	private Date date;
+	
+	@JsonIgnore
 	private String type;
     private BigDecimal open;
     private BigDecimal low;
@@ -121,7 +123,7 @@ public final class Quote implements Serializable {
     
     @Override
     public String toString() {
-        return "@" + dateFormat.format(this.date) + ": " + this.low + "-" + this.high + ", " + 
+        return this.getClass().getSimpleName() + " - " + this.symbol + "@" + dateFormat.format(this.date) + ": " + this.low + "-" + this.high + ", " + 
                 this.open + "->" + this.close + " (" + this.adjClose + ")";
     }
 }

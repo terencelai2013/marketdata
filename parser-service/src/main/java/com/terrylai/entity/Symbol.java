@@ -63,4 +63,10 @@ public class Symbol implements Serializable {
 	public void setCount(Integer count) {
 		this.count = count;
 	}
+	
+    @Override
+    public String toString() {
+        return "@" + this.name + ": [count, " + this.count + "], [start, " + this.start + "], [end, " + 
+                this.end + "]";
+    }
 }

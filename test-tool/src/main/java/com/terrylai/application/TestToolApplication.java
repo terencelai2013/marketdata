@@ -25,6 +25,7 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.newA
 
 import com.mongodb.DBObject;
 import com.terrylai.entity.Quote;
+import com.terrylai.entity.Symbol;
 import com.terrylai.service.TestService;
 
 @SpringBootApplication
@@ -48,10 +49,18 @@ public class TestToolApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 //    	getSymbol("GOOG");
-    	getSymbol5("GOOG");
+//    	getSymbol5("GOOG");
+//    	System.out.println(testService.getSymbol("GOOG"));
+    	getSymbols();
         System.exit(0);
     }
     
+    private void getSymbols() {
+    	List<Symbol> symbols = testService.getSymbols();
+    	for (int i = 0; i < symbols.size(); i++) {
+    		System.out.println(symbols.get(i));
+    	}
+    }
     private void displayBeans() {
         String[] beans = appContext.getBeanDefinitionNames();
         Arrays.sort(beans);

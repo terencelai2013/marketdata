@@ -3,6 +3,7 @@ package com.terrylai.service;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,7 +31,7 @@ public class TestServiceImpl implements TestService, MongoConstants {
 	static final String QUOTE_TYPE_RAW = "raw";
 	@Autowired
 	QuoteRepository quoteRepository;
-	
+
 	@Autowired
 	MongoTemplate mongoTemplate;
 
@@ -40,7 +41,7 @@ public class TestServiceImpl implements TestService, MongoConstants {
 		quotes = quoteRepository.findBySymbolAndType(symbol, QUOTE_TYPE_RAW, new Sort(Sort.Direction.ASC, "date"));
 		return quotes;
 	}
-	
+
 	@Override
 	public List<Quote> quoteBySymbol(String symbol) {
 		List<Quote> quotes = null;
@@ -53,12 +54,12 @@ public class TestServiceImpl implements TestService, MongoConstants {
 		Page<Quote> quotes = quoteRepository.findBySymbol(symbol, pageable);
 		return quotes;
 	}
-	
+
 	@Override
 	public Symbol getSymbol(String symbol) {
 		Symbol returnSymbol = new Symbol(OUTPUT_VALUE_SYMBOL_NA, null, null, 0);
-		GroupOperation groupBy = Aggregation.group(FIELD_KEY_SYMBOL).count().as(OUTPUT_FIELD_KEY_COUNT).min(FIELD_KEY_DATE)
-				.as(OUTPUT_FIELD_KEY_START_DATE).max(FIELD_KEY_DATE).as(OUTPUT_FIELD_KEY_END_DATE);
+		GroupOperation groupBy = Aggregation.group(FIELD_KEY_SYMBOL).count().as(OUTPUT_FIELD_KEY_COUNT)
+				.min(FIELD_KEY_DATE).as(OUTPUT_FIELD_KEY_START_DATE).max(FIELD_KEY_DATE).as(OUTPUT_FIELD_KEY_END_DATE);
 		MatchOperation isEqual = Aggregation.match(new Criteria(FIELD_KEY_SYMBOL).is(symbol));
 		Aggregation aggregation = Aggregation.newAggregation(isEqual, groupBy);
 		AggregationResults<DBObject> results = mongoTemplate.aggregate(aggregation, COLLECTION_QUOTE, DBObject.class);
@@ -72,5 +73,22 @@ public class TestServiceImpl implements TestService, MongoConstants {
 			returnSymbol.setCount(Integer.valueOf(object.get(OUTPUT_FIELD_KEY_COUNT).toString()));
 		}
 		return returnSymbol;
+	}
+
+	@Override
+	public List<Symbol> getSymbols() {
+		GroupOperation groupBy = Aggregation.group(FIELD_KEY_SYMBOL).count().as(OUTPUT_FIELD_KEY_COUNT)
+				.min(FIELD_KEY_DATE).as(OUTPUT_FIELD_KEY_START_DATE).max(FIELD_KEY_DATE).as(OUTPUT_FIELD_KEY_END_DATE);
+		Aggregation aggregation = Aggregation.newAggregation(groupBy);
+		AggregationResults<DBObject> results = mongoTemplate.aggregate(aggregation, COLLECTION_QUOTE, DBObject.class);
+
+		List<DBObject> dbObjects = results.getMappedResults();
+		List<Symbol> symbols = dbObjects.stream().map(s -> {
+			return new Symbol(s.get(OUTPUT_FIELD_KEY_ID).toString(),
+					new Date(s.get(OUTPUT_FIELD_KEY_START_DATE).toString()),
+					new Date(s.get(OUTPUT_FIELD_KEY_END_DATE).toString()),
+					Integer.valueOf(s.get(OUTPUT_FIELD_KEY_COUNT).toString()));
+		}).collect(Collectors.toList());
+		return symbols;
 	}
 }
