@@ -2,10 +2,10 @@ package com.terrylai.service;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -45,8 +45,8 @@ public class ParserServiceImpl implements ParserService, MongoConstants {
 	}
 
 	@Override
-	public int get(String symbol) {
-		int retValue = 0;
+	public long get(String symbol) {
+		long retValue = 0;
 		List<Quote> quotes = null;
 		if (symbol != null) {
 			quotes = quoteRepository.findBySymbol(symbol);
@@ -60,23 +60,21 @@ public class ParserServiceImpl implements ParserService, MongoConstants {
 	}
 
 	@Override
-	public int parse(String symbol, int period) {
+	public long parse(String symbol, int period) {
 		return get(symbol, period);
 	}
 
-	private int get(String symbol, int period) {
+	private long get(String symbol, int period) {
 		long t0 = System.nanoTime();
-		int retValue = 0;
+		long retValue = 0;
 		Calendar cal = Calendar.getInstance();
-		List<Quote> quotes;
-
 		Symbol symObject = getSymbol(symbol);
 
 		if (symObject != null && !symObject.getName().equals(OUTPUT_VALUE_SYMBOL_NA)) {
 			Date sDate = symObject.getStart();
 			Date eDate = symObject.getEnd();
 
-			cal.set(sDate.getYear() + 1900, sDate.getMonth(), sDate.getDate(), 0, 0, 0); 
+			cal.set(sDate.getYear() + 1900, sDate.getMonth(), sDate.getDate(), 0, 0, 0);
 			cal.add(Calendar.DATE, -1);
 			final Date before = cal.getTime();
 
@@ -84,33 +82,31 @@ public class ParserServiceImpl implements ParserService, MongoConstants {
 			final Date after = cal.getTime();
 
 			List<Quote> unfilteredQuotes = Parser.parse(symbol, period);
+			List<Quote> filteredQuotes = unfilteredQuotes.parallelStream()
+					.filter(p -> p.getDate().after(after) || p.getDate().before(before))
+					.filter(p -> p.getClose() != null && p.getAdjClose() != null && p.getHigh() != null
+							&& p.getLow() != null && p.getOpen() != null && p.getVolume() != null)
+					.collect(Collectors.toList());
+
+			filteredQuotes.parallelStream().forEach(p -> quoteRepository.save(p));
+			retValue = filteredQuotes.size();
 			System.out.println("Unfiltered Quotes size:" + unfilteredQuotes.size());
-			
-			quotes = unfilteredQuotes.parallelStream()
-					.filter(p -> p.getDate().after(after) || p.getDate().before(before)).collect(Collectors.toList());
+			System.out.println("Filtered Quotes size:" + filteredQuotes.size());
+
 		} else {
-			quotes = Parser.parse(symbol, period);
+			List<Quote> unfilteredQuotes = Parser.parse(symbol, period);
+			List<Quote> filteredQuotes = unfilteredQuotes.parallelStream()
+					.filter(p -> p.getClose() != null && p.getAdjClose() != null && p.getHigh() != null
+							&& p.getLow() != null && p.getOpen() != null && p.getVolume() != null)
+					.collect(Collectors.toList());
+
+			filteredQuotes.parallelStream().forEach(p -> quoteRepository.save(p));
+			retValue = filteredQuotes.size();
+			System.out.println("Unfiltered Quotes size:" + unfilteredQuotes.size());
+			System.out.println("Filtered Quotes size:" + filteredQuotes.size());
 		}
-		System.out.println("Quotes size:" + quotes.size());
 
-		if (quotes != null && quotes.size() > 0) {
-
-			Iterator<Quote> iterator = quotes.iterator();
-
-			Quote quote;
-			while (iterator.hasNext()) {
-				quote = (Quote) iterator.next();
-				if (quote.getClose() == null || quote.getAdjClose() == null || quote.getHigh() == null
-						|| quote.getLow() == null || quote.getOpen() == null || quote.getVolume() == null) {
-					// quote contains null data
-				} else {
-					quoteRepository.save(quote);
-				}
-			}
-			retValue = quotes.size();
-		}
 		long t1 = System.nanoTime();
-
 		long millis = TimeUnit.NANOSECONDS.toMillis(t1 - t0);
 		System.out.println(String.format("parallel stream took: %d ms", millis));
 		return retValue;
@@ -124,14 +120,15 @@ public class ParserServiceImpl implements ParserService, MongoConstants {
 		MatchOperation isEqual = Aggregation.match(new Criteria(FIELD_KEY_SYMBOL).is(symbol));
 		Aggregation aggregation = Aggregation.newAggregation(isEqual, groupBy);
 		AggregationResults<DBObject> results = mongoTemplate.aggregate(aggregation, COLLECTION_QUOTE, DBObject.class);
-		
+
 		DBObject object = results.getUniqueMappedResult();
 
-		returnSymbol.setName(object.get(OUTPUT_FIELD_KEY_ID).toString());
-		returnSymbol.setStart(new Date(object.get(OUTPUT_FIELD_KEY_START_DATE).toString()));
-		returnSymbol.setEnd(new Date(object.get(OUTPUT_FIELD_KEY_END_DATE).toString()));
-		returnSymbol.setCount(Integer.valueOf(object.get(OUTPUT_FIELD_KEY_COUNT).toString()));
-		
+		if (object != null) {
+			returnSymbol.setName(object.get(OUTPUT_FIELD_KEY_ID).toString());
+			returnSymbol.setStart(new Date(object.get(OUTPUT_FIELD_KEY_START_DATE).toString()));
+			returnSymbol.setEnd(new Date(object.get(OUTPUT_FIELD_KEY_END_DATE).toString()));
+			returnSymbol.setCount(Integer.valueOf(object.get(OUTPUT_FIELD_KEY_COUNT).toString()));
+		}
 		return returnSymbol;
 	}
 

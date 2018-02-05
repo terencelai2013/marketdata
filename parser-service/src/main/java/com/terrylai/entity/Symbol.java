@@ -66,7 +66,7 @@ public class Symbol implements Serializable {
 	
     @Override
     public String toString() {
-        return "@" + this.name + ": [count, " + this.count + "], [start, " + this.start + "], [end, " + 
+        return this.getClass().getSimpleName() + " - [name, " + this.name + "], [count, " + this.count + "], [start, " + this.start + "], [end, " + 
                 this.end + "]";
     }
 }

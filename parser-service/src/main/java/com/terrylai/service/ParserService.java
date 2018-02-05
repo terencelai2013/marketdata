@@ -7,9 +7,9 @@ public interface ParserService {
 
 	public void reset(String symbol);
 
-	public int get(String symbol);
+	public long get(String symbol);
 
-	public int parse(String symbol, int period);
+	public long parse(String symbol, int period);
 
 	public Symbol getSymbol(String symbol);
 }

@@ -58,7 +58,7 @@ public class ParserController {
 	
 	private Data getSymbol(String symbol) {
 		logger.info("parser-service get() invoked: [symbol," + symbol + "]");		
-		int retValue = service.get(symbol);
+		long retValue = service.get(symbol);
 		String retSymbol = symbol;
 		if (retSymbol == null) {
 			retSymbol = CONSTANT_SYMBOL_ALL;
@@ -81,7 +81,7 @@ public class ParserController {
 	private Data parseSymbol(String symbol, Integer period) {
 		logger.info("parser-service parse(symbol, period) invoked: [symbol," + symbol + "] ,[period," + period + "]");
 		if (period > 0) period *= -1;
-		int size = service.parse(symbol, period);
+		long size = service.parse(symbol, period);
 		Data data = new Data(symbol, size);
 		logger.info("parser-service parse(symbol, period) finished: " + size);
 		return data;

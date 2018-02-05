@@ -8,9 +8,9 @@ public final class Data implements Serializable {
 
 	private String symbol;
 
-	private Integer size;
+	private Long size;
 
-	public Data(String symbol, Integer size) {
+	public Data(String symbol, Long size) {
 		super();
 		this.symbol = symbol;
 		this.size = size;
@@ -24,11 +24,11 @@ public final class Data implements Serializable {
 		this.symbol = symbol;
 	}
 
-	public Integer getSize() {
+	public Long getSize() {
 		return size;
 	}
 
-	public void setSize(Integer size) {
+	public void setSize(Long size) {
 		this.size = size;
 	}
 
