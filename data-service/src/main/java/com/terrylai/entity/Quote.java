@@ -7,6 +7,7 @@ import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
@@ -28,7 +29,8 @@ public final class Quote implements Serializable {
 	private String id;
     
 	private String symbol;
-	
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CONSTANT_DATE_FORMAT)
 	private Date date;
 	private String type;
     private BigDecimal open;
@@ -57,17 +59,12 @@ public final class Quote implements Serializable {
     	return symbol;
     }
    
-    @JsonIgnore
     public Date getDate() {
     	return date;    	
     }
     
     public void setDate(Date date) {
 		this.date = date;
-	}
-
-	public String getDateString() {
-		return (this.date!=null)?dateFormat.format(this.date):null;
 	}
 
 	public String getType() {

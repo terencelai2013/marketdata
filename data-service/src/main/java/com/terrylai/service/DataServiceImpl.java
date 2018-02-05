@@ -17,31 +17,14 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.stereotype.Service;
 
 import com.mongodb.DBObject;
+import com.terrylai.constant.MongoConstants;
 import com.terrylai.entity.Quote;
 import com.terrylai.entity.Symbol;
 import com.terrylai.repository.QuoteRepository;
 
 @Service
 @EnableMongoRepositories(basePackageClasses = QuoteRepository.class)
-public class DataServiceImpl implements DataService {
-
-	static final String COLLECTION_QUOTE = "quote";
-
-	static final String FIELD_KEY_SYMBOL = "symbol";
-
-	static final String FIELD_KEY_DATE = "date";
-	
-	static final String FIELD_VALUE_TYPE_RAW = "raw";
-	
-	static final String OUTPUT_FIELD_KEY_ID = "_id";
-
-	static final String OUTPUT_FIELD_KEY_START_DATE = "startDate";
-
-	static final String OUTPUT_FIELD_KEY_END_DATE = "endDate";
-
-	static final String OUTPUT_FIELD_KEY_COUNT = "count";
-
-	static final String OUTPUT_VALUE_SYMBOL_NA = "NA";
+public class DataServiceImpl implements DataService, MongoConstants {
 
 	@Autowired
 	QuoteRepository quoteRepository;

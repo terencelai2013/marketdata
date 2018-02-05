@@ -27,7 +27,7 @@ public class DataController {
 		return returnSymbol;
 	}
 
-	@RequestMapping("/info/symbols")
+	@RequestMapping("/info/symbol")
 	public Symbol[] getSymbolsInfo() {
 		logger.info("dataService getSymbols() invoked");
 		List<Symbol> symbols = service.getSymbols();
