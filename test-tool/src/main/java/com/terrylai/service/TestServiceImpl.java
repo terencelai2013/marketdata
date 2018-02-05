@@ -83,7 +83,7 @@ public class TestServiceImpl implements TestService, MongoConstants {
 		AggregationResults<DBObject> results = mongoTemplate.aggregate(aggregation, COLLECTION_QUOTE, DBObject.class);
 
 		List<DBObject> dbObjects = results.getMappedResults();
-		List<Symbol> symbols = dbObjects.stream().map(s -> {
+		List<Symbol> symbols = dbObjects.parallelStream().map(s -> {
 			return new Symbol(s.get(OUTPUT_FIELD_KEY_ID).toString(),
 					new Date(s.get(OUTPUT_FIELD_KEY_START_DATE).toString()),
 					new Date(s.get(OUTPUT_FIELD_KEY_END_DATE).toString()),
