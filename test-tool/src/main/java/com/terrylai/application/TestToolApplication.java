@@ -26,6 +26,7 @@ import static org.springframework.data.mongodb.core.aggregation.Aggregation.newA
 import com.mongodb.DBObject;
 import com.terrylai.entity.Quote;
 import com.terrylai.entity.Symbol;
+import com.terrylai.service.DataService;
 import com.terrylai.service.TestService;
 
 @SpringBootApplication
@@ -35,7 +36,10 @@ public class TestToolApplication implements CommandLineRunner {
     private ApplicationContext appContext;
 
     @Autowired
-    private TestService testService;
+    private TestService service;
+    
+    @Autowired
+    private DataService dataService;
     
 	@Autowired
 	MongoTemplate mongoTemplate;
@@ -50,13 +54,20 @@ public class TestToolApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 //    	getSymbol("GOOG");
 //    	getSymbol5("GOOG");
-    	System.out.println(testService.getSymbol("GOOG"));
-    	getSymbols();
+//    	System.out.println(dataService.getSymbol("GOOG"));
+//    	getSymbols();
+    	getClosing("GOOG");
         System.exit(0);
     }
     
+    private void getClosing(String symbol) {
+    	List<Double> closings = dataService.getClosing(symbol);
+    	closings.stream().forEach(System.out::println);
+
+    }
+    
     private void getSymbols() {
-    	List<Symbol> symbols = testService.getSymbols();
+    	List<Symbol> symbols = dataService.getSymbols();
     	for (int i = 0; i < symbols.size(); i++) {
     		System.out.println(symbols.get(i));
     	}
@@ -71,7 +82,7 @@ public class TestToolApplication implements CommandLineRunner {
     
     private void getSymbol1(String symbol) {
 //        TestService testService = appContext.getBean(TestService.class);
-        List<Quote> quotes = testService.getQuote(symbol);
+        List<Quote> quotes = dataService.getQuote(symbol);
         for (Quote quote: quotes) {
         	System.out.println("Quote:" + quote.getSymbol() + ":[date," + quote.getDate() + "] [close," + quote.getClose() + "]");
         }
@@ -79,7 +90,7 @@ public class TestToolApplication implements CommandLineRunner {
     
     private void getSymbol2(String symbol) {
 //        TestService testService = appContext.getBean(TestService.class);
-        List<Quote> quotes = testService.quoteBySymbol(symbol);
+        List<Quote> quotes = service.quoteBySymbol(symbol);
         for (Quote quote: quotes) {
         	System.out.println("Quote:" + quote.getSymbol() + ":[date," + quote.getDate() + "] [close," + quote.getClose() + "]");
         }
@@ -102,7 +113,7 @@ public class TestToolApplication implements CommandLineRunner {
     
     private void getSymbol4(String symbol) {
 //        TestService testService = appContext.getBean(TestService.class);
-        Page<Quote> pages = testService.quoteBySymbol(symbol, new PageRequest(2, 10, new Sort(Sort.Direction.ASC, "date")));
+        Page<Quote> pages = service.quoteBySymbol(symbol, new PageRequest(2, 10, new Sort(Sort.Direction.ASC, "date")));
         System.out.println("Total Page:" + pages.getTotalPages());
         for (Quote quote: pages) {
         	System.out.println("Quote:" + quote.getSymbol() + ":[date," + quote.getDate() + "] [close," + quote.getClose() + "]");
@@ -115,7 +126,7 @@ public class TestToolApplication implements CommandLineRunner {
     	Date after = cal.getTime();
 
     	System.out.println("After Date:" + after);
-    	 List<Quote> quotes = testService.getQuote(symbol);
+    	 List<Quote> quotes = dataService.getQuote(symbol);
     	 System.out.println("Number of record:" + quotes.size());
     	 List<Quote> filtered =
     			 quotes

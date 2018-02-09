@@ -81,44 +81,27 @@ public class ParserServiceImpl implements ParserService, MongoConstants {
 			final Date after = cal.getTime();
 
 			List<Quote> unfilteredQuotes = Parser.parse(symbol, period);
-			long t1 = System.nanoTime();
-/*			
-			List<Quote> filteredQuotes = unfilteredQuotes.parallelStream()
-					.filter(p -> p.getDate().after(after) || p.getDate().before(before))
-					.filter(p -> p.getClose() != null && p.getAdjClose() != null && p.getHigh() != null
-							&& p.getLow() != null && p.getOpen() != null && p.getVolume() != null)
-					.collect(Collectors.toList());
-				
-			filteredQuotes.parallelStream().forEach(p -> quoteRepository.save(p));
-			retValue = filteredQuotes.size();
-			System.out.println("Filtered Quotes size:" + filteredQuotes.size());
-*/
-	
 			unfilteredQuotes.parallelStream()
 					.filter(p -> p.getDate().after(after) || p.getDate().before(before))
 					.filter(p -> p.getClose() != null && p.getAdjClose() != null && p.getHigh() != null
 							&& p.getLow() != null && p.getOpen() != null && p.getVolume() != null)
 					.forEach(p -> quoteRepository.save(p));
 			retValue = unfilteredQuotes.size();
-			System.out.println("Unfiltered Quotes size:" + unfilteredQuotes.size());
-
-			long t2 = System.nanoTime();
-			System.out.println(String.format("parallel stream collect: %d ms", TimeUnit.NANOSECONDS.toMillis(t2 - t0)));
+			System.out.println("Unfiltered Quotes size:" + retValue);
 
 		} else {
-	
 			List<Quote> unfilteredQuotes = Parser.parse(symbol, period);
 			unfilteredQuotes.parallelStream()
 					.filter(p -> p.getClose() != null && p.getAdjClose() != null && p.getHigh() != null
 							&& p.getLow() != null && p.getOpen() != null && p.getVolume() != null)
 					.forEach(p -> quoteRepository.save(p));
 			retValue = unfilteredQuotes.size();
-			System.out.println("Unfiltered Quotes size:" + unfilteredQuotes.size());
-
+			System.out.println("Unfiltered Quotes size:" + retValue);
 		}
 
-		long t9 = System.nanoTime();
-		System.out.println(String.format("parallel stream took: %d ms", TimeUnit.NANOSECONDS.toMillis(t9 - t0)));
+		long t1 = System.nanoTime();
+		long millis = TimeUnit.NANOSECONDS.toMillis(t1 - t0);
+		System.out.println(String.format("parallel stream took: %d ms", millis));
 		return retValue;
 	}
 
