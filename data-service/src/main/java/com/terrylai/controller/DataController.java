@@ -13,6 +13,10 @@ import com.terrylai.entity.Quote;
 import com.terrylai.entity.Symbol;
 import com.terrylai.service.DataService;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 public class DataController {
 	@Autowired
@@ -22,6 +26,14 @@ public class DataController {
 
 	private static final String CONSTANT_SYMBOL_ALL = "ALL";
 
+	@ApiOperation(value = "resetAll"
+			, nickname = "reset all symbols"
+			)
+	 @ApiResponses(value = {
+		        @ApiResponse(code = 500, message = "Server error"),
+		        @ApiResponse(code = 404, message = "Service not found"),
+		        @ApiResponse(code = 200, message = "Successful retrieval",
+		            response = DataController.class, responseContainer = "List") })
 	@RequestMapping("/reset")
 	public Symbol[] resetAll() {
 		LOGGER.info("parser-service reset() invoked: [symbol,ALL]");
