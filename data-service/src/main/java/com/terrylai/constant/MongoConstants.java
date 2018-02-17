@@ -18,5 +18,5 @@ public interface MongoConstants {
 
 	static final String OUTPUT_FIELD_KEY_COUNT = "count";
 
-	static final String OUTPUT_VALUE_SYMBOL_NA = "NA";
+//	static final String OUTPUT_VALUE_SYMBOL_NA = "NA";
 }

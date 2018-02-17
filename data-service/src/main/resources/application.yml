@@ -3,7 +3,9 @@
 spring:
   application:
     name: data-service
-
+  activemq:
+    broker-url: tcp://192.168.0.27:61616
+    
 # Discovery Server Access
 eureka:
     client:
@@ -23,3 +25,6 @@ default:
   databasename: marketdata
   hostname: 192.168.0.27
   portnumber: 27017    
+
+queue:
+  marketdata: marketdata.q

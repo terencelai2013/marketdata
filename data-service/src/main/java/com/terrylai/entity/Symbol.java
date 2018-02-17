@@ -1,9 +1,7 @@
 package com.terrylai.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Symbol implements Serializable {
@@ -15,15 +13,13 @@ public class Symbol implements Serializable {
 
 	private String name;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CONSTANT_DATE_FORMAT)
-	private Date start;
+	private String start;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CONSTANT_DATE_FORMAT)
-	private Date end;
+	private String end;
 
 	private Integer count;
 
-	public Symbol(String name, Date start, Date end, Integer count) {
+	public Symbol(String name, String start, String end, Integer count) {
 		this.name = name;
 		this.start = start;
 		this.end = end;
@@ -38,21 +34,19 @@ public class Symbol implements Serializable {
 		this.name = name;
 	}
 
-	@JsonIgnore
-	public Date getStart() {
+	public String getStart() {
 		return start;
 	}
 
-	public void setStart(Date start) {
+	public void setStart(String start) {
 		this.start = start;
 	}
 
-	@JsonIgnore
-	public Date getEnd() {
+	public String getEnd() {
 		return end;
 	}
 
-	public void setEnd(Date end) {
+	public void setEnd(String end) {
 		this.end = end;
 	}
 

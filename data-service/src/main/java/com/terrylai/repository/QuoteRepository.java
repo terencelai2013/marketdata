@@ -8,6 +8,10 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import com.terrylai.entity.Quote;
 
 public interface QuoteRepository extends MongoRepository<Quote, String> {
+	
+	void deleteBySymbol(final String symbol);
+	
+	List<Quote> findBySymbol(final String symbol);
 
-	List<Quote> findBySymbolAndType(final String symbol, final String type, Sort sort);
+	List<Quote> findBySymbol(final String symbol, Sort sort);
 }

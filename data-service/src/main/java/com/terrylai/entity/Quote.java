@@ -2,39 +2,20 @@ package com.terrylai.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public final class Quote implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
-	@JsonIgnore
-	private static final String CONSTANT_DATE_FORMAT = "yyyy-MM-dd";
-	
-	@JsonIgnore
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat(CONSTANT_DATE_FORMAT);
 	
 	@Id
 	private String id;
     
 	private String symbol;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = CONSTANT_DATE_FORMAT)
-	private Date date;
-	
-	@JsonIgnore
-	private String type;
+	private String date;
+
     private BigDecimal open;
     private BigDecimal low;
     private BigDecimal high;
@@ -44,11 +25,10 @@ public final class Quote implements Serializable {
     
     public Quote() {}
 
-    public Quote(String symbol, Date date, String type, BigDecimal high, BigDecimal low,  BigDecimal open,  BigDecimal close, BigDecimal adjClose, Long volume) {
+    public Quote(String symbol, String date, BigDecimal high, BigDecimal low,  BigDecimal open,  BigDecimal close, BigDecimal adjClose, Long volume) {
     	this.symbol = symbol;
-    	this.date = date;    	
-    	this.id = symbol + "@" + dateFormat.format(this.date);
-    	this.type = type;
+    	this.date = date;
+    	this.id = symbol + "@" + this.date;
         this.open = open;
         this.low = low;
         this.high = high;
@@ -61,18 +41,14 @@ public final class Quote implements Serializable {
     	return symbol;
     }
    
-    public Date getDate() {
+    public String getDate() {
     	return date;    	
     }
     
-    public void setDate(Date date) {
+    public void setDate(String date) {
 		this.date = date;
 	}
 
-	public String getType() {
-    	return type;
-    }
-    
     public BigDecimal getOpen() {
         return open;
     }
@@ -123,7 +99,7 @@ public final class Quote implements Serializable {
     
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + " - " + this.symbol + "@" + dateFormat.format(this.date) + ": " + this.low + "-" + this.high + ", " + 
+        return this.getClass().getSimpleName() + " - " + this.id + ": " + this.low + "-" + this.high + ", " + 
                 this.open + "->" + this.close + " (" + this.adjClose + ")";
     }
 }

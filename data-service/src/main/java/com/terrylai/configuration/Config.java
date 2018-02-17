@@ -13,7 +13,7 @@ import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 
 @Configuration
-public class MongoConfig extends AbstractMongoConfiguration {
+public class Config extends AbstractMongoConfiguration {
   
 	static final String MAPPING_BASE_PACKAGE = "com.terrylai";
 	
