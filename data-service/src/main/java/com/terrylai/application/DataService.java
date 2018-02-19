@@ -8,10 +8,10 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @EnableDiscoveryClient
 @ComponentScan(basePackages = "com.terrylai")
-public class DataServiceApplication {
+public class DataService {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DataServiceApplication.class, args);
+		SpringApplication.run(DataService.class, args);
 	}
 	
 }
