@@ -1,6 +1,5 @@
 package com.terrylai.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -17,7 +16,6 @@ import com.terrylai.service.DataService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.Authorization;
@@ -42,7 +40,7 @@ public class DataController {
 		        @ApiResponse(code = 404, message = "Service not found"),
 		        @ApiResponse(code = 200, message = "Successful retrieval",
 		            response = Symbol.class, responseContainer = "Array") })
-	@RequestMapping(method = RequestMethod.DELETE, value = "/reset")
+	@RequestMapping(method = RequestMethod.GET, value = "/reset")
 	public Symbol[] resetAll() {
 		LOGGER.info("parser-service reset() invoked: [symbol,ALL]");
 		service.reset();
@@ -60,7 +58,7 @@ public class DataController {
 		        @ApiResponse(code = 404, message = "Service not found"),
 		        @ApiResponse(code = 200, message = "Successful retrieval",
 		            response = Symbol.class) })
-	@RequestMapping(method = RequestMethod.DELETE, value = "/reset/{symbol}")
+	@RequestMapping(method = RequestMethod.GET, value = "/reset/{symbol}")
 	public Symbol reset(@PathVariable("symbol") String symbol) {
 		LOGGER.info("parser-service reset(symbol) invoked: [symbol," + symbol + "]");
 		if (symbol != null && symbol.equals(CONSTANT_SYMBOL_ALL)) {
@@ -134,7 +132,7 @@ public class DataController {
 		        @ApiResponse(code = 404, message = "Service not found"),
 		        @ApiResponse(code = 200, message = "Successful retrieval",
 		            response = String.class) })
-	@RequestMapping(method = RequestMethod.POST, value ="/add/{symbol}")
+	@RequestMapping(method = RequestMethod.GET, value ="/add/{symbol}")
 	public String retrieveQuote(@PathVariable("symbol") String symbol) {
 		LOGGER.info("dataService bySymbol() invoked: [symbol, " + symbol + "]");
 		long retValue = service.retrieve(symbol);
