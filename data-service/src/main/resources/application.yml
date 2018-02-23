@@ -4,13 +4,13 @@ spring:
   application:
     name: data-service
   activemq:
-    broker-url: tcp://192.168.0.27:61616
+    broker-url: tcp://localhost:61616
     
 # Discovery Server Access
 eureka:
     client:
       serviceUrl:
-        defaultZone: http://192.168.0.27:1111/eureka/
+        defaultZone: http://localhost:1111/eureka/
 
 # HTTP Server (Tomcat) Port
 server: 
@@ -23,7 +23,7 @@ error:
     
 default:
   databasename: marketdata
-  hostname: 192.168.0.27
+  hostname: localhost
   portnumber: 27017    
 
 queue:
